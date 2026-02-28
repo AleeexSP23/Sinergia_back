@@ -7,8 +7,14 @@ export function UserModel() {
       unique: true,
       type: String,
     },
-    password: String,
-    nombre: String,
+    password: {
+      required: true,
+      type: String,
+    },
+    nombre: {
+      required: true,
+      type: String,
+    },
   });
 
   const UserModel =

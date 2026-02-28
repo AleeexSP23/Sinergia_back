@@ -8,32 +8,35 @@ dotenv.config();
 //LOGIN
 export async function LoginService(email, password) {
   const userAcces = await UserModel().findOne({ correo: email });
-  //    si no consigue el usuario entonces retorna el error dentro del if
+
+  if (!email || !password) {
+    return {
+      status: 400,
+      message: "Faltan datos",
+    };
+  }
+
   if (!userAcces) {
     return {
-      status: 404,
+      status: 401,
       message: "Usuario o clave incorrectos",
     };
   }
 
   const nombre = userAcces.nombre;
   const correo = userAcces.correo;
-  const direccion = userAcces.direccion;
 
   const payload = {
     nombre,
     correo,
-    direccion,
   };
 
   console.log(userAcces.password);
   const passOk = await bcrypt.compare(password, userAcces.password);
 
-  //    si la clave es incorrecta entonces retorna el error dentro del if
-
   if (!passOk) {
     return {
-      status: 404,
+      status: 401,
       message: "Usuario o clave incorrectos",
     };
   }
@@ -49,9 +52,10 @@ export async function LoginService(email, password) {
   };
 }
 
-//REGISTRAR usuario
+//REGISTRAR
 export async function RegisterService(data) {
   const userEmail = await UserModel().findOne({ correo: data.correo });
+
   if (userEmail) {
     return {
       status: 409,
@@ -64,7 +68,6 @@ export async function RegisterService(data) {
     await UserModel().create({
       correo: data.correo,
       nombre: data.nombre,
-      direccion: data.direccion,
       password: hash,
     });
     return {
@@ -78,4 +81,3 @@ export async function RegisterService(data) {
     };
   }
 }
-
