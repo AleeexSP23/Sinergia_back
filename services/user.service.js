@@ -27,9 +27,8 @@ export async function LoginService(email, password) {
   const correo = userAcces.correo;
 
   const payload = {
-    nombre,
-    correo,
-  };
+  id: userAcces._id,
+};
 
   console.log(userAcces.password);
   const passOk = await bcrypt.compare(password, userAcces.password);
@@ -41,7 +40,7 @@ export async function LoginService(email, password) {
     };
   }
 
-  const token = jwt.sign(payload, process.env.TOKEN_KEY, { expiresIn: "10m" });
+  const token = jwt.sign(payload, process.env.TOKEN_KEY);
 
   return {
     status: 200,

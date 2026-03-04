@@ -1,13 +1,21 @@
 import { validateTokenService } from "../services/token.service.js";
 
-export function appMiddleware(req, res, next){
-    console.log(req.headers.authorization.split(' ')[1])
-    const token= req.headers.authorization.split(' ')[1]
-    try{
-        validateTokenService(token);
-        next()
-    }catch(e){
-        res.status(401).send("Error de token")
-    }
-}
+export function appMiddleware(req, res, next) {
 
+  if (!req.headers.authorization) {
+    return res.status(401).send("No token provided");
+  }
+
+  const token = req.headers.authorization.split(" ")[1];
+
+  try {
+    const decoded = validateTokenService(token);
+
+    // 🔥 GUARDAMOS EL USUARIO EN EL REQUEST
+    req.user = decoded;
+
+    next();
+  } catch (e) {
+    res.status(401).send("Token inválido");
+  }
+}
