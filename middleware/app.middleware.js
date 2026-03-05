@@ -11,7 +11,6 @@ export function appMiddleware(req, res, next) {
   try {
     const decoded = validateTokenService(token);
 
-    // 🔥 GUARDAMOS EL USUARIO EN EL REQUEST
     req.user = decoded;
 
     next();

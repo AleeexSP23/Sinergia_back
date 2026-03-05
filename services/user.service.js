@@ -28,6 +28,8 @@ export async function LoginService(email, password) {
 
   const payload = {
   id: userAcces._id,
+  nombre,
+  correo
 };
 
   console.log(userAcces.password);

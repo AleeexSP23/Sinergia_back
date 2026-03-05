@@ -3,8 +3,8 @@ import { ReservationModel } from "../models/reservation.model.js";
 export async function createReservationService(data, userId) {
   try {
     await ReservationModel().create({
-      userId,
-      fecha: data.fecha,
+      userId: userId,
+      fecha: data.date,
       personas: data.personas,
     });
 
@@ -13,6 +13,7 @@ export async function createReservationService(data, userId) {
       message: "Reserva creada correctamente",
     };
   } catch (e) {
+    console.log("ERROR MONGO:", e);
     return {
       status: 400,
       message: "Error al crear reserva",
