@@ -9,7 +9,7 @@ export function ReservationModel() {
       ref: "UserModel",
       required: true,
     },
-    fecha: {
+    date: {
       type: Date,
       required: true,
     },
