@@ -25,11 +25,13 @@ export async function LoginService(email, password) {
 
   const nombre = userAcces.nombre;
   const correo = userAcces.correo;
+  const role = userAcces.role;
 
   const payload = {
   id: userAcces._id,
   nombre,
-  correo
+  correo,
+  role
 };
 
   console.log(userAcces.password);

@@ -83,4 +83,40 @@ export async function getAvailabilityService(date) {
 
   }
 
+};
+
+
+export async function getReservationsService(user) {
+
+  try {
+
+    let reservations;
+
+    if(user.role === "admin"){
+
+      reservations = await ReservationModel().find()
+        .populate("userId", "email");
+
+    } else {
+
+      reservations = await ReservationModel().find({
+        userId: user.id
+      });
+
+    }
+
+    return {
+      status: 200,
+      reservations
+    }
+
+  } catch(e){
+
+    return {
+      status: 400,
+      message: "Error al obtener reservas"
+    }
+
+  }
+
 }

@@ -15,6 +15,11 @@ export function UserModel() {
       required: true,
       type: String,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
   });
 
   const UserModel =
