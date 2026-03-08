@@ -119,4 +119,25 @@ export async function getReservationsService(user) {
 
   }
 
+};
+
+export async function deleteReservationService(reservationId, user) {
+  try {
+    // Solo admins pueden eliminar cualquier reserva
+    // Usuarios normales solo podrían eliminar la suya (opcional)
+    if (user.role !== "admin") {
+      return { status: 403, message: "No tienes permisos para eliminar reservas" };
+    }
+
+    const deleted = await ReservationModel().findByIdAndDelete(reservationId);
+
+    if (!deleted) {
+      return { status: 404, message: "Reserva no encontrada" };
+    }
+
+    return { status: 200, message: "Reserva eliminada correctamente" };
+  } catch (err) {
+    console.error(err);
+    return { status: 500, message: "Error al eliminar la reserva" };
+  }
 }
